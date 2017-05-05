@@ -12,6 +12,7 @@ defmodule SneakyChat do
       supervisor(SneakyChat.Repo, []),
       # Start the endpoint when the application starts
       supervisor(SneakyChat.Endpoint, []),
+      supervisor(SneakyChat.Presence, []),
       # Start your own worker by calling: SneakyChat.Worker.start_link(arg1, arg2, arg3)
       # worker(SneakyChat.Worker, [arg1, arg2, arg3]),
     ]

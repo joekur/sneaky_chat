@@ -2,7 +2,7 @@ defmodule SneakyChat.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", SneakyChat.RoomChannel
+  channel "room:*", SneakyChat.RoomChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
