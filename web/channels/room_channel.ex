@@ -17,7 +17,7 @@ defmodule SneakyChat.RoomChannel do
   def handle_in("new_msg", %{"body" => body}, socket) do
     broadcast! socket, "new_msg", %{
       body: body,
-      author: socket.assigns.nickname,
+      author_uuid: socket.assigns.uuid,
       sent_at: DateTime.utc_now |> Timex.format("%H:%M", :strftime) |> elem(1)
     }
 
