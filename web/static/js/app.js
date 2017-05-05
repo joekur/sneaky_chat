@@ -5,7 +5,7 @@ import { Socket, Presence } from 'phoenix';
 
 class Foo extends React.Component {
   render() {
-    return <span>hello</span>;
+    return <span>hello 2</span>;
   }
 }
 

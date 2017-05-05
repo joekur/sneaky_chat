@@ -7,11 +7,11 @@ use Mix.Config
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
 config :sneaky_chat, SneakyChat.Endpoint,
-  http: [port: 4000],
+  http: [port: 3030],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
-  watchers: [npm: ["run", "watch"]]
+  watchers: [{Path.expand("webpack.dev.js"), []}]
 
 
 # Watch static and templates for browser reloading.
