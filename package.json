@@ -1,0 +1,41 @@
+{
+  "repository": {},
+  "license": "MIT",
+  "scripts": {
+    "watch": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --progress --colors"
+  },
+  "name": "sneaky_chat",
+  "description": "To start your Phoenix app:",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "author": "Joe Kurleto",
+  "devDependencies": {
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.3.2",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.23.0",
+    "cors": "^2.8.3",
+    "css-loader": "^0.26.2",
+    "express": "^4.15.2",
+    "extract-text-webpack-plugin": "^2.0.0",
+    "http-server": "^0.9.0",
+    "node-sass": "^4.5.0",
+    "postcss-loader": "^1.3.3",
+    "react-hot-loader": "^3.0.0-beta",
+    "sass-loader": "^6.0.2",
+    "style-loader": "^0.13.2",
+    "webpack": "^2.2.1",
+    "webpack-dev-middleware": "^1.10.2",
+    "webpack-dev-server": "^2.4.1",
+    "webpack-hot-middleware": "^2.18.0"
+  },
+  "dependencies": {
+    "phoenix": "file:deps/phoenix",
+    "phoenix_html": "file:deps/phoenix_html",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
+  }
+}
