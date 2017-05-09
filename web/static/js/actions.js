@@ -7,6 +7,8 @@ export const CONNECT_FAILURE = 'CONNECT_FAILURE';
 export const PRESENCE_SYNCED = 'PRESENCE_SYNCED';
 export const PRESENCE_DIFF = 'PRESENCE_DIFF';
 
+export const LOAD_ROOM = 'LOAD_ROOM';
+
 function connectStarted() {
   return {
     type: CONNECT_STARTED,
@@ -39,6 +41,13 @@ function presenceDiff(diff) {
   };
 }
 
+function loadRoom(messages) {
+  return {
+    type: LOAD_ROOM,
+    data: { messages },
+  };
+}
+
 export function connectApp() {
   return (dispatch) => {
     dispatch(connectStarted());
@@ -61,6 +70,9 @@ export function connectApp() {
     });
     channel.on('presence_diff', (diff) => {
       dispatch(presenceDiff(diff));
+    });
+    channel.on('load_room', (resp) => {
+      dispatch(loadRoom(resp.messages));
     });
   }
 }

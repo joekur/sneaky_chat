@@ -5,11 +5,13 @@ import {
   CONNECT_SUCCESS,
   CONNECT_FAILURE,
   PRESENCE_SYNCED,
-  PRESENCE_DIFF
+  PRESENCE_DIFF,
+  LOAD_ROOM
 } from './actions';
 
 const defaultState = {
   presence: {},
+  messages: null,
   isConnected: false,
   isConnectError: false,
 };
@@ -46,6 +48,12 @@ export default function reducer(state = defaultState, action) {
           state.presence,
           action.data.diff
         )
+      };
+
+    case LOAD_ROOM:
+      return {
+        ...state,
+        messages: action.data.messages
       };
 
     default:

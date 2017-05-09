@@ -9,6 +9,9 @@ defmodule SneakyChat.RoomChannel do
 
   def handle_info(:after_join, socket) do
     push socket, "presence_state", Presence.list(socket)
+    push socket, "load_room", %{
+      messages: SneakyChat.Message |> SneakyChat.Repo.all |> Enum.map(fn(x) -> Map.from_struct(x) |> Map.drop([:__meta__]) end)
+    }
     {:ok, _} = Presence.track(socket, socket.assigns.uuid, %{})
 
     {:noreply, socket}

@@ -12,11 +12,21 @@ class Chat extends React.Component {
     return uuids.map((uuid) => <li key={uuid}>{uuid}</li>);
   }
 
+  renderMessages() {
+    if (!this.props.messages) { return null; }
+    return this.props.messages.map(msg =>
+      <div>{msg.body}</div>
+    );
+  }
+
   render() {
     return (
-      <ul>
-        {this.renderPeople()}
-      </ul>
+      <div>
+        <ul>
+          {this.renderPeople()}
+        </ul>
+        {this.renderMessages()}
+      </div>
     );
   }
 }
@@ -24,6 +34,7 @@ class Chat extends React.Component {
 function mapStateToProps(state) {
   return {
     presence: state.presence,
+    messages: state.messages
   };
 }
 
