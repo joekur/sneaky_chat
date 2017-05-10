@@ -15,9 +15,13 @@ let store = createStore(
   )
 );
 
-ReactDOM.render(
-  <Provider store={store}>
-    <Chat />
-  </Provider>,
-  document.getElementById('app')
-);
+const appContainer = document.getElementById('app')
+
+if (appContainer) {
+  ReactDOM.render(
+    <Provider store={store}>
+      <Chat />
+    </Provider>,
+    appContainer
+  );
+}
