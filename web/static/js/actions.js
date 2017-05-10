@@ -7,7 +7,7 @@ export const CONNECT_FAILURE = 'CONNECT_FAILURE';
 export const PRESENCE_SYNCED = 'PRESENCE_SYNCED';
 export const PRESENCE_DIFF = 'PRESENCE_DIFF';
 
-export const LOAD_ROOM = 'LOAD_ROOM';
+export const HISTORY_LOADED = 'HISTORY_LOADED';
 
 function connectStarted() {
   return {
@@ -41,11 +41,19 @@ function presenceDiff(diff) {
   };
 }
 
-function loadRoom(messages) {
+function historyLoaded(response) {
   return {
-    type: LOAD_ROOM,
-    data: { messages },
+    type: HISTORY_LOADED,
+    data: { response },
   };
+}
+
+function loadHistory(dispatch) {
+  fetch('/api/history')
+    .then((resp) => resp.json())
+    .then((resp) =>
+      dispatch(historyLoaded(resp))
+    );
 }
 
 export function connectApp() {
@@ -71,8 +79,7 @@ export function connectApp() {
     channel.on('presence_diff', (diff) => {
       dispatch(presenceDiff(diff));
     });
-    channel.on('load_room', (resp) => {
-      dispatch(loadRoom(resp.messages));
-    });
+
+    loadHistory(dispatch);
   }
 }

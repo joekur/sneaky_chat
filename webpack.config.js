@@ -21,6 +21,10 @@ var plugins = [
     __DEV: env === 'dev'
   }),
   new ExtractTextPlugin('priv/static/js/styles.css'),
+  new webpack.ProvidePlugin({
+        Promise: 'imports-loader?this=>global!exports-loader?global.Promise!es6-promise',
+        fetch: 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'
+   })
 ];
 
 if (env === 'dev') {
