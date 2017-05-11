@@ -42,6 +42,7 @@ defmodule SneakyChat.Mixfile do
       {:ex_machina, "~> 2.0", only: [:test, :dev]},
       {:cowboy, "~> 1.0"},
       {:comeonin, "~> 2.4"},
+      {:guardian, "~> 0.14"},
     ]
   end
 
