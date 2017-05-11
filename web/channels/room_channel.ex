@@ -21,7 +21,7 @@ defmodule SneakyChat.RoomChannel do
     push socket, "load_room", %{
       messages: SneakyChat.Message |> SneakyChat.Repo.all |> Enum.map(fn(x) -> Map.from_struct(x) |> Map.drop([:__meta__]) end)
     }
-    {:ok, _} = Presence.track(socket, socket.assigns.uuid, %{})
+    {:ok, _} = Presence.track(socket, current_user(socket).id, %{})
 
     {:noreply, socket}
   end
@@ -29,11 +29,15 @@ defmodule SneakyChat.RoomChannel do
   def handle_in("new_msg", %{"body" => body}, socket) do
     broadcast! socket, "new_msg", %{
       body: body,
-      author_uuid: socket.assigns.uuid,
+      user_id: current_user(socket).id,
       sent_at: DateTime.utc_now |> Timex.format("%H:%M", :strftime) |> elem(1)
     }
 
     {:noreply, socket}
+  end
+
+  defp current_user(socket) do
+    current_resource(socket)
   end
 
 end
