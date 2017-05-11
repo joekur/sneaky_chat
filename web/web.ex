@@ -36,6 +36,7 @@ defmodule SneakyChat.Web do
 
       import SneakyChat.Router.Helpers
       import SneakyChat.Gettext
+      import SneakyChat.SharedHelpers
     end
   end
 
@@ -52,7 +53,7 @@ defmodule SneakyChat.Web do
       import SneakyChat.Router.Helpers
       import SneakyChat.ErrorHelpers
       import SneakyChat.Gettext
-      import SneakyChat.ViewHelper
+      import SneakyChat.SharedHelpers
     end
   end
 

@@ -27,18 +27,18 @@ defmodule SneakyChat.Router do
     plug Guardian.Plug.LoadResource
   end
 
-  # unauthenticated routes
   scope "/", SneakyChat do
     pipe_through :browser
 
     get "/", PageController, :index
+
     resources "/registrations", RegistrationController, only: [:new, :create]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
-  end
 
-  # authenticated routes
-  scope "/", SneakyChat do
-    pipe_through :browser
+    # authenticated routes
+    scope "/", SneakyChat do
+      pipe_through :browser_auth
+    end
   end
 
   scope "/api", SneakyChat do
