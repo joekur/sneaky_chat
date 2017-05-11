@@ -49,11 +49,17 @@ function historyLoaded(response) {
 }
 
 function loadHistory(dispatch) {
-  fetch('/api/history')
+  const headers = new Headers();
+  headers.append('Authorization', `Bearer: ${authToken()}`)
+  fetch('/api/history', { headers })
     .then((resp) => resp.json())
     .then((resp) =>
       dispatch(historyLoaded(resp))
     );
+}
+
+function authToken() {
+  return document.querySelector('meta[name="guardian_token"]').getAttribute('content');
 }
 
 export function connectApp() {
@@ -63,8 +69,7 @@ export function connectApp() {
     const socket = new Socket('/socket', {});
     socket.connect();
 
-    const guardianToken = document.querySelector('meta[name="guardian_token"]').getAttribute('content');
-    const channel = socket.channel('room:lobby', { guardian_token: guardianToken });
+    const channel = socket.channel('room:lobby', { auth_token: authToken() });
 
     channel.join()
       .receive('ok', (resp) => {

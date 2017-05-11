@@ -3,7 +3,7 @@ defmodule SneakyChat.RoomChannel do
   import Guardian.Phoenix.Socket
   alias SneakyChat.Presence
 
-  def join("room:" <> _room_name, %{"guardian_token" => token}, socket) do
+  def join("room:" <> _room_name, %{"auth_token" => token}, socket) do
     case sign_in(socket, token) do
       {:ok, authed_socket, _guardian_params} ->
         send(self(), :after_join)

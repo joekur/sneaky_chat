@@ -21,6 +21,12 @@ defmodule SneakyChat.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :api_auth do
+    plug Guardian.Plug.VerifyHeader, realm: "Bearer"
+    plug Guardian.Plug.EnsureAuthenticated, handler: SneakyChat.Token # TODO api handler
+    plug Guardian.Plug.LoadResource
+  end
+
   # unauthenticated routes
   scope "/", SneakyChat do
     pipe_through :browser
@@ -37,6 +43,7 @@ defmodule SneakyChat.Router do
 
   scope "/api", SneakyChat do
     pipe_through :api
+    pipe_through :api_auth
 
     get "/history", RoomController, :history
   end
