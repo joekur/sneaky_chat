@@ -63,7 +63,8 @@ export function connectApp() {
     const socket = new Socket('/socket', {});
     socket.connect();
 
-    const channel = socket.channel('room:lobby', {});
+    const guardianToken = document.querySelector('meta[name="guardian_token"]').getAttribute('content');
+    const channel = socket.channel('room:lobby', { guardian_token: guardianToken });
 
     channel.join()
       .receive('ok', (resp) => {
