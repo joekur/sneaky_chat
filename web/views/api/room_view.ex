@@ -1,4 +1,4 @@
-defmodule SneakyChat.RoomView do
+defmodule SneakyChat.Api.RoomView do
   use SneakyChat.Web, :view
 
   def render("history.json", %{messages: messages}) do

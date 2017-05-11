@@ -45,6 +45,6 @@ defmodule SneakyChat.Router do
     pipe_through :api
     pipe_through :api_auth
 
-    get "/history", RoomController, :history
+    get "/history", Api.RoomController, :history
   end
 end

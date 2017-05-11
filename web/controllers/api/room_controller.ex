@@ -1,4 +1,4 @@
-defmodule SneakyChat.RoomController do
+defmodule SneakyChat.Api.RoomController do
   use SneakyChat.Web, :controller
 
   alias SneakyChat.Message
