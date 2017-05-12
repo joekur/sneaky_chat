@@ -10,6 +10,7 @@ import {
   PRESENCE_DIFF,
   HISTORY_LOADED,
   MESSAGE_SENT,
+  NEW_MESSAGE,
 } from './actions';
 
 const defaultState = {
@@ -61,22 +62,19 @@ export default function reducer(state = defaultState, action) {
       action.data.response.users.forEach(user =>
         session.User.create(user)
       );
-      return {
-        ...state,
-        ...session.state,
-      };
+      return { ...state, ...session.state };
 
     case MESSAGE_SENT:
       session.Message.create({
-        user_id: 1, // TODO make dynamic
+        user: 2, // TODO make dynamic
         body: action.data.body,
-        inserted_at: moment.utc().toString(),
+        inserted_at: moment.utc().toISOString(),
       });
+      return { ...state, ...session.state };
 
-      return {
-        ...state,
-        ...session.state,
-      };
+    case NEW_MESSAGE:
+      session.Message.create(action.data.message);
+      return { ...state, ...session.state };
 
     default:
       return state;

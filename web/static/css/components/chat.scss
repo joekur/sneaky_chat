@@ -35,12 +35,15 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  height: 100vh;
   background: #f5f6f9;
+  font-size: 0.9em;
 }
 
 .messagelist {
   flex: 1;
   padding: 15px;
+  overflow: auto;
 }
 
 .user-message-group {
@@ -73,10 +76,20 @@
 .message__header {
   line-height: 1em;
   margin-bottom: 5px;
+  margin-top: 3px;
 }
 
 .message__body {
   white-space: pre;
+}
+
+.message__username {
+  font-weight: bold;
+}
+
+.message__timestamp {
+  font-size: 0.8em;
+  color: #777;
 }
 
 .messagebox {

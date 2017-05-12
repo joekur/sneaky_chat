@@ -10,6 +10,7 @@ export const PRESENCE_DIFF = 'PRESENCE_DIFF';
 export const HISTORY_LOADED = 'HISTORY_LOADED';
 
 export const MESSAGE_SENT = 'MESSAGE_SENT';
+export const NEW_MESSAGE = 'NEW_MESSAGE';
 
 let socket, channel;
 
@@ -59,6 +60,13 @@ function messageSent(msg) {
   };
 }
 
+function newMessage(payload) {
+  return {
+    type: NEW_MESSAGE,
+    data: { message: payload },
+  };
+}
+
 function loadHistory(dispatch) {
   const headers = new Headers();
   headers.append('Authorization', `Bearer: ${authToken()}`)
@@ -93,8 +101,13 @@ export function connectApp() {
     channel.on('presence_state', (presence) => {
       dispatch(presenceSynced(presence));
     });
+
     channel.on('presence_diff', (diff) => {
       dispatch(presenceDiff(diff));
+    });
+
+    channel.on('new:message', (messageJson) => {
+      dispatch(newMessage(messageJson));
     });
 
     loadHistory(dispatch);

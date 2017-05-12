@@ -5,7 +5,7 @@ import moment from 'moment';
 class Message extends Model {
   get timestamp() {
     const localTime = this.parsedInsertedAt.local();
-    return localTime.format('hh:mma');
+    return localTime.format('h:mma');
   }
 
   get parsedInsertedAt() {

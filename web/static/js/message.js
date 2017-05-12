@@ -5,6 +5,18 @@ class Message extends React.Component {
     return <div className="message__body">{this.props.message.body}</div>;
   }
 
+  renderUsername() {
+    return (
+      <span className="message__username">{this.props.message.user.username}</span>
+    );
+  }
+
+  renderTimestamp() {
+    return (
+      <span className="message__timestamp"> - {this.props.message.timestamp}</span>
+    );
+  }
+
   render() {
     return (
       <div className="message">
@@ -13,7 +25,7 @@ class Message extends React.Component {
         </div>
         <div className="message__content">
           <div className="message__header">
-            {this.props.message.user.username} - {this.props.message.timestamp}
+            {this.renderUsername()}{this.renderTimestamp()}
           </div>
           {this.renderBody()}
         </div>
