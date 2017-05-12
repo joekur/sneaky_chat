@@ -1,12 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { connectApp } from  './actions';
-import orm from './orm';
+import { connectApp } from  '../actions';
+import orm from '../orm';
+import UserRow from './user_row';
 
 class RoomsBar extends React.Component {
+  presenceFor(user) {
+    return this.props.presence[user.id.toString()];
+  }
+
   renderPeople() {
     return this.props.users.map((user) =>
-      <li key={user.id}>{user.username}</li>
+      <UserRow
+        user={user}
+        presenceData={this.presenceFor(user)}
+        key={user.id}
+      />
     );
   }
 

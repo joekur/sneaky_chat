@@ -112,3 +112,21 @@
     outline: none;
   }
 }
+
+$status-light-size: 4px;
+.status-light {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-radius: $status-light-size;
+  padding: $status-light-size;
+  margin-right: 5px;
+
+  &.status-light--online {
+    background: #78b529;
+  }
+
+  &.status-light--offline {
+    background: #8c8c8c;
+  }
+}

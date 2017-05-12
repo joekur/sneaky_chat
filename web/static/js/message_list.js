@@ -16,7 +16,7 @@ class MessageList extends React.Component {
   get isMinimallyScrolledUp() {
     const el = this.containerEl;
     const scrollFromBot = el.scrollHeight - el.clientHeight - el.scrollTop;
-    return scrollFromBot < 50;
+    return scrollFromBot < 80;
   }
 
   scrollToBottom() {
