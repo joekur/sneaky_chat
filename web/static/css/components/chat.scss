@@ -42,7 +42,7 @@
 
 .messagelist {
   flex: 1;
-  padding: 15px;
+  padding: 20px;
   overflow: auto;
 }
 
@@ -93,7 +93,8 @@
 }
 
 .messagebox {
-  padding: 15px;
+  padding: 20px;
+  padding-top: 1px;
 }
 
 .messagebox__editable {

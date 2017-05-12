@@ -4,8 +4,27 @@ import UserMessageGroup from './user_message_group';
 
 class MessageList extends React.Component {
   componentDidMount() {
-    const div = document.querySelector('.messagelist');
-    div.scrollTop = div.scrollHeight;
+    this.scrollToBottom();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.messages.length > prevProps.messages.length && this.isMinimallyScrolledUp) {
+      this.scrollToBottom();
+    }
+  }
+
+  get isMinimallyScrolledUp() {
+    const el = this.containerEl;
+    const scrollFromBot = el.scrollHeight - el.clientHeight - el.scrollTop;
+    return scrollFromBot < 50;
+  }
+
+  scrollToBottom() {
+    this.containerEl.scrollTop = this.containerEl.scrollHeight;
+  }
+
+  get containerEl() {
+    return document.querySelector('.messagelist');
   }
 
   // Return arrays of arrays of Messages. Consecutive messages by the
