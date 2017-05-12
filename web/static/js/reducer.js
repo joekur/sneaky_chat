@@ -6,7 +6,8 @@ import {
   CONNECT_FAILURE,
   PRESENCE_SYNCED,
   PRESENCE_DIFF,
-  HISTORY_LOADED
+  HISTORY_LOADED,
+  MESSAGE_SENT
 } from './actions';
 
 const defaultState = {
@@ -56,6 +57,19 @@ export default function reducer(state = defaultState, action) {
         ...state,
         messages: action.data.response.messages,
         users: action.data.response.users,
+      };
+
+    case MESSAGE_SENT:
+      return {
+        ...state,
+        messages: [
+          ...state.messages,
+          {
+            user_id: 1, // TODO make dynamic
+            body: action.data.body,
+            inserted_at: new Date().toString(),
+          }
+        ]
       };
 
     default:

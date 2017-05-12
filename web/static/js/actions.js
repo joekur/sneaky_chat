@@ -9,6 +9,10 @@ export const PRESENCE_DIFF = 'PRESENCE_DIFF';
 
 export const HISTORY_LOADED = 'HISTORY_LOADED';
 
+export const MESSAGE_SENT = 'MESSAGE_SENT';
+
+let socket, channel;
+
 function connectStarted() {
   return {
     type: CONNECT_STARTED,
@@ -48,6 +52,13 @@ function historyLoaded(response) {
   };
 }
 
+function messageSent(msg) {
+  return {
+    type: MESSAGE_SENT,
+    data: { body: msg },
+  };
+}
+
 function loadHistory(dispatch) {
   const headers = new Headers();
   headers.append('Authorization', `Bearer: ${authToken()}`)
@@ -66,10 +77,10 @@ export function connectApp() {
   return (dispatch) => {
     dispatch(connectStarted());
 
-    const socket = new Socket('/socket', {});
+    socket = new Socket('/socket', {});
     socket.connect();
 
-    const channel = socket.channel('room:lobby', { auth_token: authToken() });
+    channel = socket.channel('room:lobby', { auth_token: authToken() });
 
     channel.join()
       .receive('ok', (resp) => {
@@ -91,4 +102,10 @@ export function connectApp() {
 }
 
 export function sendMessage(msg) {
+  return (dispatch) => {
+    dispatch(messageSent(msg));
+
+    channel.push('new:message', { body: msg })
+      .receive('ok', () => {});
+  }
 }

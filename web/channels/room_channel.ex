@@ -26,11 +26,11 @@ defmodule SneakyChat.RoomChannel do
     {:noreply, socket}
   end
 
-  def handle_in("new_msg", %{"body" => body}, socket) do
-    broadcast! socket, "new_msg", %{
+  def handle_in("new:message", %{"body" => body}, socket) do
+    broadcast! socket, "new:message", %{
       body: body,
       user_id: current_user(socket).id,
-      sent_at: DateTime.utc_now |> Timex.format("%H:%M", :strftime) |> elem(1)
+      inserted_at: DateTime.utc_now
     }
 
     {:noreply, socket}
