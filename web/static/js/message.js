@@ -15,7 +15,7 @@ class Message extends React.Component {
     return (
       <div className="message">
         <div className="message__avatar-container">
-          {this.props.message.user_id}:
+          {this.props.message.user.username}:
         </div>
         <div className="message__body-container">
           <div>{this.renderTimestamp()}</div>

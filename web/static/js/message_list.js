@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import orm from './orm';
+import * as _ from 'lodash';
 import Message from './message';
 
 class MessageList extends React.Component {
@@ -11,9 +12,7 @@ class MessageList extends React.Component {
   }
 
   render() {
-    if (!this.props.messages) {
-      return null;
-    }
+    if (_.isEmpty(this.props.messages)) { return null; }
 
     return (
       <div className="messagelist">
@@ -25,7 +24,7 @@ class MessageList extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    messages: orm.session(state).Message.all().toRefArray(),
+    messages: orm.session(state).Message.all().toModelArray(),
   };
 }
 

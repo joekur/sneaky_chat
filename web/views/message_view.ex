@@ -3,7 +3,7 @@ defmodule SneakyChat.MessageView do
     %{
       id: message.id,
       body: message.body,
-      user_id: message.user_id,
+      user: message.user_id,
       inserted_at: message.inserted_at,
     }
   end

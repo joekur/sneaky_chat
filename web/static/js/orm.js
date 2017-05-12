@@ -6,7 +6,7 @@ Message.fields = {
   id: attr(),
   body: attr(),
   inserted_at: attr(),
-  user: fk('User', 'messages'),
+  user: fk('User'),
 };
 
 class User extends Model {}
