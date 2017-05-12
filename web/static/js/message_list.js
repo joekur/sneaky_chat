@@ -1,10 +1,13 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import orm from './orm';
 import * as _ from 'lodash';
 import UserMessageGroup from './user_message_group';
 
 class MessageList extends React.Component {
+  componentDidMount() {
+    const div = document.querySelector('.messagelist');
+    div.scrollTop = div.scrollHeight;
+  }
+
   // Return arrays of arrays of Messages. Consecutive messages by the
   // same user within 10 minutes are grouped together
   get messageGroups() {
@@ -45,18 +48,4 @@ class MessageList extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    messages: orm.session(state).Message.all().toModelArray(),
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MessageList);
+export default MessageList;
