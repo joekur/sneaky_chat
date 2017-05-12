@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import orm from './orm';
 import Message from './message';
 
 class MessageList extends React.Component {
@@ -24,7 +25,7 @@ class MessageList extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    messages: state.messages,
+    messages: orm.session(state).Message.all().toRefArray(),
   };
 }
 

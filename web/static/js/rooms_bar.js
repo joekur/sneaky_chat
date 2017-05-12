@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { connectApp } from  './actions';
+import orm from './orm';
 
 class RoomsBar extends React.Component {
   renderPeople() {
@@ -24,7 +25,7 @@ class RoomsBar extends React.Component {
 function mapStateToProps(state) {
   return {
     presence: state.presence,
-    users: state.users,
+    users: orm.session(state).User.all().toModelArray(),
   };
 }
 

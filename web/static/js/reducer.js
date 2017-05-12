@@ -1,5 +1,6 @@
 import { Presence } from 'phoenix';
 import moment from 'moment';
+import orm from './orm';
 
 import {
   CONNECT_STARTED,
@@ -8,18 +9,18 @@ import {
   PRESENCE_SYNCED,
   PRESENCE_DIFF,
   HISTORY_LOADED,
-  MESSAGE_SENT
+  MESSAGE_SENT,
 } from './actions';
 
 const defaultState = {
   presence: {},
-  messages: [],
-  users: [],
   isConnected: false,
   isConnectError: false,
+  ...orm.getEmptyState(),
 };
 
 export default function reducer(state = defaultState, action) {
+  const session = orm.session(state);
   switch(action.type) {
     case CONNECT_STARTED:
       console.log('connect started');
@@ -54,23 +55,27 @@ export default function reducer(state = defaultState, action) {
       };
 
     case HISTORY_LOADED:
+      action.data.response.messages.forEach(message =>
+        session.Message.create(message)
+      );
+      action.data.response.users.forEach(user =>
+        session.User.create(user)
+      );
       return {
         ...state,
-        messages: action.data.response.messages,
-        users: action.data.response.users,
+        ...session.state,
       };
 
     case MESSAGE_SENT:
+      session.Message.create({
+        user_id: 1, // TODO make dynamic
+        body: action.data.body,
+        inserted_at: moment.utc().toString(),
+      });
+
       return {
         ...state,
-        messages: [
-          ...state.messages,
-          {
-            user_id: 1, // TODO make dynamic
-            body: action.data.body,
-            inserted_at: moment.utc().toString(),
-          }
-        ]
+        ...session.state,
       };
 
     default:
