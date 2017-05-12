@@ -13,11 +13,7 @@ defmodule SneakyChat.Api.RoomView do
   end
 
   def message_json(message) do
-    %{
-      body: message.body,
-      user_id: message.user_id,
-      inserted_at: message.inserted_at,
-    }
+    SneakyChat.MessageView.message_json(message)
   end
 
   def user_json(user) do
@@ -30,7 +26,7 @@ defmodule SneakyChat.Api.RoomView do
   def messages do
     SneakyChat.Message
     |> Ecto.Query.where([m], m.room_id == 1)
-    |> Ecto.Query.order_by([m], desc: m.inserted_at)
+    |> Ecto.Query.order_by([m], asc: m.inserted_at)
     |> Repo.all
   end
 

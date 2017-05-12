@@ -11,4 +11,10 @@ defmodule SneakyChat.Message do
 
     timestamps()
   end
+
+  def changeset(message, params \\ %{}) do
+    message
+    |> cast(params, [:body, :user_id, :room_id])
+    |> validate_required([:body, :user_id, :room_id])
+  end
 end

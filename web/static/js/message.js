@@ -3,7 +3,7 @@ import moment from 'moment';
 
 class Message extends React.Component {
   renderTimestamp() {
-    const time = moment(this.props.message.inserted_at)
+    const time = moment.utc(this.props.message.inserted_at).local();
     return time.format('hh:mma');
   }
 

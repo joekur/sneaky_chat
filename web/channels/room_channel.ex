@@ -27,17 +27,27 @@ defmodule SneakyChat.RoomChannel do
   end
 
   def handle_in("new:message", %{"body" => body}, socket) do
-    broadcast! socket, "new:message", %{
+    attrs = %{
       body: body,
       user_id: current_user(socket).id,
-      inserted_at: DateTime.utc_now
+      room_id: current_room(socket),
     }
+
+    {:ok, msg} = %SneakyChat.Message{}
+                 |> SneakyChat.Message.changeset(attrs)
+                 |> SneakyChat.Repo.insert
+
+    broadcast! socket, "new:message", SneakyChat.MessageView.message_json(msg)
 
     {:noreply, socket}
   end
 
   defp current_user(socket) do
     current_resource(socket)
+  end
+
+  defp current_room(socket) do
+    1 # TODO make dynamic
   end
 
 end

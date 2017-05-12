@@ -14,7 +14,7 @@ defmodule SneakyChat.User do
 
   def changeset(user, params \\ %{}) do
     user
-    |> cast(params, [:username, :password])
+    |> cast(params, [:username, :password, :email])
     |> validate_required([:username])
   end
 
