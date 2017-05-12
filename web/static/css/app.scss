@@ -1,7 +1,17 @@
 /* This file is for your main application css. */
 
+@import 'reset';
+
+@import 'components/chat';
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
 body {
-  div {
-    color: green;
-  }
+  min-height: 100%;
 }

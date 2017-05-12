@@ -1,0 +1,51 @@
+.chat-container {
+  display: flex;
+  flex-grow: 1;
+}
+
+.rooms-bar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-basis: 200px;
+  flex-shrink: 0;
+  background: #ccc;
+  max-width: 200px;
+  padding: 10px;
+  height: 100vh;
+}
+
+.room-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background: #eee;
+}
+
+.messagelist {
+  flex: 1;
+  padding: 15px;
+}
+
+.message {
+}
+
+.messagebox {
+  padding: 15px;
+}
+
+.messagebox__editable {
+  min-height: 1.3em;
+  max-height: 1.3em * 6;
+  line-height: 1.3em;
+  width: 100%;
+  padding: 10px;
+  background: white;
+  border-radius: 5px;
+  overflow: auto;
+
+  &:focus {
+    outline: none;
+  }
+}

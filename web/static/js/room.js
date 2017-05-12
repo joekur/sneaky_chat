@@ -1,28 +1,16 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import MessageList from './message_list';
+import MessageBox from './message_box';
 
 class Room extends React.Component {
   render() {
     return (
-      <div>
+      <div className="room-container">
         <MessageList />
+        <MessageBox />
       </div>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Room);
+export default Room;

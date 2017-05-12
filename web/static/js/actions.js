@@ -89,3 +89,6 @@ export function connectApp() {
     loadHistory(dispatch);
   }
 }
+
+export function sendMessage(msg) {
+}

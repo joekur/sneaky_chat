@@ -1,19 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { connectApp } from  './actions';
-import RoomsBar from './rooms_bar';
-import Room from './room';
+import ContentEditable from 'react-contenteditable';
 
-class Chat extends React.Component {
-  componentWillMount() {
-    this.props.connectApp();
-  }
-
+class MessageBox extends React.Component {
   render() {
     return (
-      <div className="chat-container">
-        <RoomsBar />
-        <Room />
+      <div className="messagebox">
+        <ContentEditable
+          className="messagebox__editable"
+        />
       </div>
     );
   }
@@ -26,11 +22,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    connectApp: () => { dispatch(connectApp()) }
+    onSendMessage: () => { dipatch() }
   };
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Chat);
+)(MessageBox);

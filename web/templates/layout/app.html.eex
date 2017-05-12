@@ -15,9 +15,6 @@
   </head>
 
   <body>
-    <%= if logged_in?(@conn) do %>
-      <p>Welcome back <%= current_user(@conn).username %>
-    <% end %>
     <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
     <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
     <main role="main">

@@ -11,7 +11,8 @@ import {
 
 const defaultState = {
   presence: {},
-  messages: null,
+  messages: [],
+  users: [],
   isConnected: false,
   isConnectError: false,
 };
@@ -53,7 +54,8 @@ export default function reducer(state = defaultState, action) {
     case HISTORY_LOADED:
       return {
         ...state,
-        messages: action.data.response.messages
+        messages: action.data.response.messages,
+        users: action.data.response.users,
       };
 
     default:

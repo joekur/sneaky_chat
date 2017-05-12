@@ -1,9 +1,14 @@
 defmodule SneakyChat.Api.RoomView do
   use SneakyChat.Web, :view
 
-  def render("history.json", %{messages: messages}) do
+  alias SneakyChat.Repo
+
+  require Ecto.Query
+
+  def render("history.json", _) do
     %{
-      messages: Enum.map(messages, &message_json/1)
+      messages: Enum.map(messages, &message_json/1),
+      users: Enum.map(users, &user_json/1),
     }
   end
 
@@ -11,7 +16,27 @@ defmodule SneakyChat.Api.RoomView do
     %{
       body: message.body,
       user_id: message.user_id,
-      inserted_at: message.inserted_at
+      inserted_at: message.inserted_at,
     }
+  end
+
+  def user_json(user) do
+    %{
+      id: user.id,
+      username: user.username,
+    }
+  end
+
+  def messages do
+    SneakyChat.Message
+    |> Ecto.Query.where([m], m.room_id == 1)
+    |> Ecto.Query.order_by([m], desc: m.inserted_at)
+    |> Repo.all
+  end
+
+  def users do
+    SneakyChat.User
+    |> Ecto.Query.order_by([m], asc: m.inserted_at)
+    |> Repo.all
   end
 end
