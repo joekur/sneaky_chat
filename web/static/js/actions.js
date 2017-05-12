@@ -10,6 +10,7 @@ export const PRESENCE_DIFF = 'PRESENCE_DIFF';
 export const HISTORY_LOADED = 'HISTORY_LOADED';
 
 export const MESSAGE_SENT = 'MESSAGE_SENT';
+export const MESSAGE_SENT_ACKED = 'MESSAGE_SENT_ACKED';
 export const NEW_MESSAGE = 'NEW_MESSAGE';
 
 let socket, channel;
@@ -57,6 +58,13 @@ function messageSent(message) {
   return {
     type: MESSAGE_SENT,
     data: { message },
+  };
+}
+
+function messageSentAcked(response) {
+  return {
+    type: MESSAGE_SENT_ACKED,
+    data: { clientTimestamp: response.client_timestamp },
   };
 }
 
@@ -116,14 +124,21 @@ export function connectApp() {
 
 export function sendMessage(body) {
   return (dispatch, getState) => {
+    const timestamp = moment.utc().toISOString();
     const message = {
       body,
       user: getState().userId,
-      inserted_at: moment.utc().toISOString(),
+      inserted_at: timestamp,
+      id: `pending-${timestamp}`,
+      pending: true,
     };
     dispatch(messageSent(message));
 
-    channel.push('new:message', { body })
-      .receive('ok', () => {});
+    channel.push('new:message', {
+      body,
+      client_timestamp: timestamp,
+    }).receive('ok', (resp) => {
+      dispatch(messageSentAcked(resp));
+    });
   }
 }

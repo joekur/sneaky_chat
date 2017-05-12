@@ -10,6 +10,7 @@ import {
   PRESENCE_DIFF,
   HISTORY_LOADED,
   MESSAGE_SENT,
+  MESSAGE_SENT_ACKED,
   NEW_MESSAGE,
 } from './actions';
 
@@ -71,6 +72,13 @@ export default function reducer(state = defaultState, action) {
 
     case MESSAGE_SENT:
       session.Message.create(action.data.message);
+      return { ...state, ...session.state };
+
+    case MESSAGE_SENT_ACKED:
+      const message = session.Message.get({
+        inserted_at: action.data.clientTimestamp,
+        pending: true,
+      }).delete();
       return { ...state, ...session.state };
 
     case NEW_MESSAGE:

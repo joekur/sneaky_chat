@@ -26,7 +26,8 @@ defmodule SneakyChat.RoomChannel do
     {:noreply, socket}
   end
 
-  def handle_in("new:message", %{"body" => body}, socket) do
+  def handle_in("new:message", params, socket) do
+    %{"body" => body, "client_timestamp" => client_timestamp} = params
     attrs = %{
       body: body,
       user_id: current_user(socket).id,
@@ -39,7 +40,8 @@ defmodule SneakyChat.RoomChannel do
 
     broadcast! socket, "new:message", SneakyChat.MessageView.message_json(msg)
 
-    {:noreply, socket}
+    resp = %{client_timestamp: client_timestamp}
+    {:reply, {:ok, resp}, socket}
   end
 
   defp current_user(socket) do
