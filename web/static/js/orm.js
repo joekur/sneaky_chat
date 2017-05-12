@@ -1,6 +1,22 @@
 import {fk, attr, Model, ORM} from 'redux-orm';
 
-class Message extends Model {}
+import moment from 'moment';
+
+class Message extends Model {
+  get timestamp() {
+    const localTime = this.parsedInsertedAt.local();
+    return localTime.format('hh:mma');
+  }
+
+  get parsedInsertedAt() {
+    return moment.utc(this.inserted_at);
+  }
+
+  isGroupableWith(message) {
+    return this.user.id === message.user.id &&
+      this.parsedInsertedAt.subtract(10, 'minute').isBefore(message.parsedInsertedAt);
+  }
+}
 Message.modelName = 'Message';
 Message.fields = {
   id: attr(),

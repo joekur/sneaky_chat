@@ -1,12 +1,6 @@
 import React from 'react';
-import moment from 'moment';
 
 class Message extends React.Component {
-  renderTimestamp() {
-    const time = moment.utc(this.props.message.inserted_at).local();
-    return time.format('hh:mma');
-  }
-
   renderBody() {
     return <div className="message__body">{this.props.message.body}</div>;
   }
@@ -14,11 +8,13 @@ class Message extends React.Component {
   render() {
     return (
       <div className="message">
-        <div className="message__avatar-container">
-          {this.props.message.user.username}:
+        <div className="message__gutter">
+          <div className="message__avatar" />
         </div>
-        <div className="message__body-container">
-          <div>{this.renderTimestamp()}</div>
+        <div className="message__content">
+          <div className="message__header">
+            {this.props.message.user.username} - {this.props.message.timestamp}
+          </div>
           {this.renderBody()}
         </div>
       </div>

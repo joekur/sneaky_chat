@@ -25,3 +25,5 @@ if (appContainer) {
     appContainer
   );
 }
+
+window.moment = require('moment');

@@ -43,19 +43,36 @@
   padding: 15px;
 }
 
+.user-message-group {
+  margin-bottom: 10px;
+}
+
 .message {
-  padding: 5px 0;
+  margin-bottom: 8px;
   display: flex;
   flex-direction: row;
+  line-height: 1.4em;
 }
 
-.message__avatar-container {
+.message__gutter {
   flex-shrink: 0;
+  width: 40px;
 }
 
-.message__body-container {
+.message__content {
   flex-grow: 1;
   margin-left: 15px;
+}
+
+.message__avatar {
+  width: 40px;
+  height: 40px;
+  background: #aaa;
+}
+
+.message__header {
+  line-height: 1em;
+  margin-bottom: 5px;
 }
 
 .message__body {
