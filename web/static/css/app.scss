@@ -1,7 +1,6 @@
 /* This file is for your main application css. */
 
 @import 'reset';
-
 @import 'components/chat';
 
 * {
@@ -14,4 +13,5 @@ html {
 
 body {
   min-height: 100%;
+  font-family: 'Open Sans', sans-serif;
 }
