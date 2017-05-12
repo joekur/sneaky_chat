@@ -1,4 +1,5 @@
 import { Presence } from 'phoenix';
+import moment from 'moment';
 
 import {
   CONNECT_STARTED,
@@ -67,7 +68,7 @@ export default function reducer(state = defaultState, action) {
           {
             user_id: 1, // TODO make dynamic
             body: action.data.body,
-            inserted_at: new Date().toString(),
+            inserted_at: moment.utc().toString(),
           }
         ]
       };
