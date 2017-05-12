@@ -4,6 +4,6 @@ defmodule SneakyChat.Api.RoomController do
   alias SneakyChat.Message
 
   def history(conn, _params) do
-    render conn, "history.json", %{}
+    render conn, "history.json", %{user: current_user(conn)}
   end
 end

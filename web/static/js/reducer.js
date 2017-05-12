@@ -17,6 +17,7 @@ const defaultState = {
   presence: {},
   isConnected: false,
   isConnectError: false,
+  userId: null,
   ...orm.getEmptyState(),
 };
 
@@ -62,14 +63,14 @@ export default function reducer(state = defaultState, action) {
       action.data.response.users.forEach(user =>
         session.User.create(user)
       );
-      return { ...state, ...session.state };
+      return {
+        ...state,
+        ...session.state,
+        userId: action.data.response.user_id,
+      };
 
     case MESSAGE_SENT:
-      session.Message.create({
-        user: 2, // TODO make dynamic
-        body: action.data.body,
-        inserted_at: moment.utc().toISOString(),
-      });
+      session.Message.create(action.data.message);
       return { ...state, ...session.state };
 
     case NEW_MESSAGE:

@@ -5,10 +5,11 @@ defmodule SneakyChat.Api.RoomView do
 
   require Ecto.Query
 
-  def render("history.json", _) do
+  def render("history.json", %{user: user}) do
     %{
       messages: Enum.map(messages, &message_json/1),
       users: Enum.map(users, &user_json/1),
+      user_id: user.id,
     }
   end
 

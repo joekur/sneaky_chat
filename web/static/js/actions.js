@@ -53,10 +53,10 @@ function historyLoaded(response) {
   };
 }
 
-function messageSent(msg) {
+function messageSent(message) {
   return {
     type: MESSAGE_SENT,
-    data: { body: msg },
+    data: { message },
   };
 }
 
@@ -114,11 +114,16 @@ export function connectApp() {
   }
 }
 
-export function sendMessage(msg) {
-  return (dispatch) => {
-    dispatch(messageSent(msg));
+export function sendMessage(body) {
+  return (dispatch, getState) => {
+    const message = {
+      body,
+      user: getState().userId,
+      inserted_at: moment.utc().toISOString(),
+    };
+    dispatch(messageSent(message));
 
-    channel.push('new:message', { body: msg })
+    channel.push('new:message', { body })
       .receive('ok', () => {});
   }
 }
