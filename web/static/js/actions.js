@@ -1,8 +1,6 @@
-import { Socket, Presence } from 'phoenix';
-
-export const CONNECT_STARTED = 'CONNECT_STARTED';
-export const CONNECT_SUCCESS = 'CONNECT_SUCCESS';
-export const CONNECT_FAILURE = 'CONNECT_FAILURE';
+import { Presence } from 'phoenix';
+import SocketManager from './socket_manager';
+import { authToken } from './auth';
 
 export const PRESENCE_SYNCED = 'PRESENCE_SYNCED';
 export const PRESENCE_DIFF = 'PRESENCE_DIFF';
@@ -14,26 +12,6 @@ export const MESSAGE_SENT_ACKED = 'MESSAGE_SENT_ACKED';
 export const NEW_MESSAGE = 'NEW_MESSAGE';
 
 export const CHANGE_ROOMS = 'CHANGE_ROOMS';
-
-let socket, channel;
-
-function connectStarted() {
-  return {
-    type: CONNECT_STARTED,
-  };
-}
-
-function connectSuccess() {
-  return {
-    type: CONNECT_SUCCESS,
-  };
-}
-
-function connectFailure() {
-  return {
-    type: CONNECT_FAILURE,
-  };
-}
 
 function presenceSynced(presence) {
   return {
@@ -77,7 +55,7 @@ function newMessage(payload) {
   };
 }
 
-export function changeRooms(roomId) {
+function changeRooms(roomId) {
   return {
     type: CHANGE_ROOMS,
     data: { roomId },
@@ -86,52 +64,30 @@ export function changeRooms(roomId) {
 
 function loadHistory(dispatch) {
   const headers = new Headers();
-  headers.append('Authorization', `Bearer: ${authToken()}`)
-  fetch('/api/history', { headers })
-    .then((resp) => resp.json())
-    .then((resp) =>
-      dispatch(historyLoaded(resp))
-    );
+  headers.append('Authorization', `Bearer: ${authToken}`)
+  return fetch('/api/history', { headers })
+    .then(resp => resp.json());
 }
 
-function authToken() {
-  return document.querySelector('meta[name="guardian_token"]').getAttribute('content');
-}
-
-export function connectApp() {
+function connectApp() {
   return (dispatch) => {
-    dispatch(connectStarted());
+    connectSocketActions(dispatch);
+    SocketManager.connect();
 
-    socket = new Socket('/socket', {});
-    socket.connect();
-
-    channel = socket.channel('room:lobby', { auth_token: authToken() });
-
-    channel.join()
-      .receive('ok', (resp) => {
-        dispatch(connectSuccess());
-      })
-      .receive('error', (resp) => {
-        dispatch(connectFailure());
-      });
-
-    channel.on('presence_state', (presence) => {
-      dispatch(presenceSynced(presence));
+    loadHistory(dispatch).then(resp => {
+      dispatch(historyLoaded(resp));
+      resp.rooms.forEach(room => SocketManager.subscribeToRoom(room.id));
     });
-
-    channel.on('presence_diff', (diff) => {
-      dispatch(presenceDiff(diff));
-    });
-
-    channel.on('new:message', (messageJson) => {
-      dispatch(newMessage(messageJson));
-    });
-
-    loadHistory(dispatch);
   }
 }
 
-export function sendMessage(body) {
+function connectSocketActions(dispatch) {
+  SocketManager.on('presence_state', resp => dispatch(presenceSynced(resp)));
+  SocketManager.on('presence_diff', resp => dispatch(presenceDiff(resp)));
+  SocketManager.on('new:message', resp => dispatch(newMessage(resp)));
+}
+
+function sendMessage(body) {
   return (dispatch, getState) => {
     const timestamp = moment.utc().toISOString();
     const message = {
@@ -143,11 +99,21 @@ export function sendMessage(body) {
     };
     dispatch(messageSent(message));
 
-    channel.push('new:message', {
-      body,
-      client_timestamp: timestamp,
-    }).receive('ok', (resp) => {
-      dispatch(messageSentAcked(resp));
-    });
+    SocketManager.push(
+      getState().currentRoomId,
+      'new:message',
+      {
+        body,
+        client_timestamp: timestamp,
+      }
+    ).receive('ok', resp =>
+      dispatch(messageSentAcked(resp))
+    );
   }
 }
+
+export {
+  connectApp,
+  changeRooms,
+  sendMessage,
+};

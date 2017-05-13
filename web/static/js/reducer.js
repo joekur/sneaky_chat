@@ -3,9 +3,6 @@ import moment from 'moment';
 import orm from './orm';
 
 import {
-  CONNECT_STARTED,
-  CONNECT_SUCCESS,
-  CONNECT_FAILURE,
   PRESENCE_SYNCED,
   PRESENCE_DIFF,
   HISTORY_LOADED,
@@ -17,8 +14,6 @@ import {
 
 const defaultState = {
   presence: {},
-  isConnected: false,
-  isConnectError: false,
   userId: null,
   currentRoomId: null,
   ...orm.getEmptyState(),
@@ -27,20 +22,6 @@ const defaultState = {
 export default function reducer(state = defaultState, action) {
   const session = orm.session(state);
   switch(action.type) {
-    case CONNECT_STARTED:
-      console.log('connect started');
-      return { ...state, isConnected: false };
-
-    case CONNECT_SUCCESS:
-      return { ...state, isConnected: true };
-
-    case CONNECT_FAILURE:
-      return {
-        ...state,
-        isConnected: false,
-        isConnectError: true,
-      };
-
     case PRESENCE_SYNCED:
       return {
         ...state,
@@ -67,9 +48,10 @@ export default function reducer(state = defaultState, action) {
         session.User.create(user)
       );
       const rooms = action.data.response.rooms;
-      rooms.forEach(room =>
-        session.Room.create(room)
-      );
+      rooms.forEach(room => {
+        session.Room.create(room);
+      });
+
       return {
         ...state,
         ...session.state,
