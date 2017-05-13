@@ -64,6 +64,9 @@ export default function reducer(state = defaultState, action) {
       action.data.response.users.forEach(user =>
         session.User.create(user)
       );
+      action.data.response.rooms.forEach(room =>
+        session.Room.create(room)
+      );
       return {
         ...state,
         ...session.state,

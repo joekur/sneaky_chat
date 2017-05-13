@@ -10,7 +10,7 @@
   flex-basis: 200px;
   flex-shrink: 0;
   max-width: 200px;
-  padding: 15px;
+  padding: 20px;
   height: 100vh;
   background: #45515d;
   color: white;
@@ -24,10 +24,15 @@
   border-bottom: 1px solid lighten(#45515d, 20%);
 }
 
+.rooms-bar__rooms,
 .rooms-bar__people {
   font-weight: lighter;
   line-height: 1.5em;
   color: #dadcde;
+}
+
+.rooms-bar__rooms {
+  margin-bottom: 30px;
 }
 
 .room-container {

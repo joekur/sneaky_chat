@@ -19,9 +19,19 @@ class RoomsBar extends React.Component {
     );
   }
 
+  renderRooms() {
+    return this.props.rooms.map((room) =>
+      <li key={room.id}>{room.name}</li>
+    );
+  }
+
   render() {
     return (
       <div className="rooms-bar">
+        <h3 className="rooms-bar__heading">Rooms</h3>
+        <ul className="rooms-bar__rooms">
+          {this.renderRooms()}
+        </ul>
         <h3 className="rooms-bar__heading">People</h3>
         <ul className="rooms-bar__people">
           {this.renderPeople()}
@@ -35,6 +45,7 @@ function mapStateToProps(state) {
   return {
     presence: state.presence,
     users: orm.session(state).User.all().toModelArray(),
+    rooms: orm.session(state).Room.all().toModelArray(),
   };
 }
 

@@ -31,9 +31,16 @@ User.fields = {
   id: attr(),
   username: attr(),
   email: attr(),
-}
+};
+
+class Room extends Model {}
+Room.modelName = 'Room';
+Room.fields = {
+  id: attr(),
+  name: attr(),
+};
 
 const orm = new ORM();
-orm.register(Message, User);
+orm.register(Message, User, Room);
 
 export default orm;

@@ -9,6 +9,7 @@ defmodule SneakyChat.Api.RoomView do
     %{
       messages: Enum.map(messages, &message_json/1),
       users: Enum.map(users, &user_json/1),
+      rooms: Enum.map(rooms, &room_json/1),
       user_id: user.id,
     }
   end
@@ -24,6 +25,13 @@ defmodule SneakyChat.Api.RoomView do
     }
   end
 
+  def room_json(room) do
+    %{
+      id: room.id,
+      name: room.name,
+    }
+  end
+
   def messages do
     SneakyChat.Message
     |> Ecto.Query.where([m], m.room_id == 1)
@@ -34,6 +42,12 @@ defmodule SneakyChat.Api.RoomView do
   def users do
     SneakyChat.User
     |> Ecto.Query.order_by([m], asc: m.inserted_at)
+    |> Repo.all
+  end
+
+  def rooms do
+    SneakyChat.Room
+    |> Ecto.Query.order_by([r], asc: r.name)
     |> Repo.all
   end
 end
