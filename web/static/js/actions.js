@@ -13,6 +13,8 @@ export const MESSAGE_SENT = 'MESSAGE_SENT';
 export const MESSAGE_SENT_ACKED = 'MESSAGE_SENT_ACKED';
 export const NEW_MESSAGE = 'NEW_MESSAGE';
 
+export const CHANGE_ROOMS = 'CHANGE_ROOMS';
+
 let socket, channel;
 
 function connectStarted() {
@@ -72,6 +74,13 @@ function newMessage(payload) {
   return {
     type: NEW_MESSAGE,
     data: { message: payload },
+  };
+}
+
+export function changeRooms(roomId) {
+  return {
+    type: CHANGE_ROOMS,
+    data: { roomId },
   };
 }
 

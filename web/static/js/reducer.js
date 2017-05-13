@@ -12,6 +12,7 @@ import {
   MESSAGE_SENT,
   MESSAGE_SENT_ACKED,
   NEW_MESSAGE,
+  CHANGE_ROOMS,
 } from './actions';
 
 const defaultState = {
@@ -19,6 +20,7 @@ const defaultState = {
   isConnected: false,
   isConnectError: false,
   userId: null,
+  currentRoomId: null,
   ...orm.getEmptyState(),
 };
 
@@ -64,13 +66,15 @@ export default function reducer(state = defaultState, action) {
       action.data.response.users.forEach(user =>
         session.User.create(user)
       );
-      action.data.response.rooms.forEach(room =>
+      const rooms = action.data.response.rooms;
+      rooms.forEach(room =>
         session.Room.create(room)
       );
       return {
         ...state,
         ...session.state,
         userId: action.data.response.user_id,
+        currentRoomId: rooms[0].id,
       };
 
     case MESSAGE_SENT:
@@ -87,6 +91,12 @@ export default function reducer(state = defaultState, action) {
     case NEW_MESSAGE:
       session.Message.create(action.data.message);
       return { ...state, ...session.state };
+
+    case CHANGE_ROOMS:
+      return {
+        ...state,
+        currentRoomId: action.data.roomId,
+      };
 
     default:
       return state;

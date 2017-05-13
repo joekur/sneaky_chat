@@ -3,6 +3,9 @@
   flex-grow: 1;
 }
 
+$rooms-bar-gutter: 20px;
+$rooms-bar-background: #45515d;
+
 .rooms-bar {
   position: relative;
   display: flex;
@@ -10,29 +13,47 @@
   flex-basis: 200px;
   flex-shrink: 0;
   max-width: 200px;
-  padding: 20px;
+  padding: 20px 0;
   height: 100vh;
-  background: #45515d;
+  background: $rooms-bar-background;
   color: white;
+  font-size: 0.9em;
 }
 
 .rooms-bar__heading {
-  margin-bottom: 8px;
+  margin: 0 $rooms-bar-gutter 8px $rooms-bar-gutter;
   text-transform: uppercase;
   font-size: 0.8em;
   padding-bottom: 5px;
   border-bottom: 1px solid lighten(#45515d, 20%);
 }
 
-.rooms-bar__rooms,
-.rooms-bar__people {
+.rooms-bar__room,
+.rooms-bar__user {
+  padding: 2px $rooms-bar-gutter;
   font-weight: lighter;
   line-height: 1.5em;
   color: #dadcde;
+
+  &:hover {
+    background: darken($rooms-bar-background, 4%);
+    cursor: pointer;
+  }
 }
 
 .rooms-bar__rooms {
   margin-bottom: 30px;
+}
+
+.rooms-bar__room {
+}
+
+.rooms-bar__room {
+  &.rooms-bar__room--active {
+    color: white;
+    font-weight: bold;
+    background: darken($rooms-bar-background, 10%);
+  }
 }
 
 .room-container {
@@ -115,6 +136,10 @@
 
   &:focus {
     outline: none;
+  }
+
+  &:hover, &:focus {
+    border-color: #bbb;
   }
 }
 
