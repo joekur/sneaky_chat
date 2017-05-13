@@ -1,4 +1,4 @@
-import {fk, attr, Model, ORM} from 'redux-orm';
+import { fk, many, attr, Model, ORM } from 'redux-orm';
 
 import moment from 'moment';
 
@@ -23,6 +23,7 @@ Message.fields = {
   body: attr(),
   inserted_at: attr(),
   user: fk('User'),
+  room: fk('Room', 'messages'),
 };
 
 class User extends Model {}

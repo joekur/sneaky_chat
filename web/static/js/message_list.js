@@ -30,6 +30,8 @@ class MessageList extends React.Component {
   // Return arrays of arrays of Messages. Consecutive messages by the
   // same user within 10 minutes are grouped together
   get messageGroups() {
+    if (_.isEmpty(this.props.messages)) { return []; }
+
     const groups = [[]];
     let lastMessage = null;
 
@@ -57,8 +59,6 @@ class MessageList extends React.Component {
   }
 
   render() {
-    if (_.isEmpty(this.props.messages)) { return null; }
-
     return (
       <div className="messagelist">
         {this.renderMessages()}
