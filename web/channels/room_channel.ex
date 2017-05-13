@@ -3,7 +3,7 @@ defmodule SneakyChat.RoomChannel do
   import Guardian.Phoenix.Socket
   alias SneakyChat.Presence
 
-  def join("room:" <> _room_name, %{"auth_token" => token}, socket) do
+  def join("room:" <> _room_id, %{"auth_token" => token}, socket) do
     case sign_in(socket, token) do
       {:ok, authed_socket, _guardian_params} ->
         send(self(), :after_join)
@@ -31,7 +31,7 @@ defmodule SneakyChat.RoomChannel do
     attrs = %{
       body: body,
       user_id: current_user(socket).id,
-      room_id: current_room(socket),
+      room_id: current_room_id(socket),
     }
 
     {:ok, msg} = %SneakyChat.Message{}
@@ -48,8 +48,9 @@ defmodule SneakyChat.RoomChannel do
     current_resource(socket)
   end
 
-  defp current_room(socket) do
-    1 # TODO make dynamic
+  defp current_room_id(socket) do
+    "room:" <> room_id = socket.topic
+    room_id
   end
 
 end
