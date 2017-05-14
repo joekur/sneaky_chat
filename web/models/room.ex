@@ -5,6 +5,8 @@ defmodule SneakyChat.Room do
     field :name, :string
     field :default, :boolean
 
+    has_many :messages, SneakyChat.Message
+
     timestamps()
   end
 

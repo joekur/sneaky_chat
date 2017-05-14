@@ -1,9 +1,8 @@
 defmodule SneakyChat.Api.RoomController do
   use SneakyChat.Web, :controller
 
-  alias SneakyChat.Message
-
-  def history(conn, _params) do
-    render conn, "history.json", %{user: current_user(conn)}
+  def show(conn, %{"id" => id}) do
+    room = SneakyChat.Repo.get(SneakyChat.Room, id)
+    render conn, "show.json", %{room: room}
   end
 end

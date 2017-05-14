@@ -5,11 +5,12 @@ import orm from './orm';
 import {
   PRESENCE_SYNCED,
   PRESENCE_DIFF,
-  HISTORY_LOADED,
+  TEAM_LOADED,
   MESSAGE_SENT,
   MESSAGE_SENT_ACKED,
   NEW_MESSAGE,
   CHANGE_ROOMS,
+  ROOM_LOADED,
 } from './actions';
 
 const defaultState = {
@@ -40,10 +41,7 @@ export default function reducer(state = defaultState, action) {
         )
       };
 
-    case HISTORY_LOADED:
-      action.data.response.messages.forEach(message =>
-        session.Message.create(message)
-      );
+    case TEAM_LOADED:
       action.data.response.users.forEach(user =>
         session.User.create(user)
       );
@@ -78,6 +76,16 @@ export default function reducer(state = defaultState, action) {
       return {
         ...state,
         currentRoomId: action.data.roomId,
+      };
+
+    case ROOM_LOADED:
+      action.data.response.messages.forEach(message =>
+        session.Message.create(message)
+      );
+
+      return {
+        ...state,
+        ...session.state,
       };
 
     default:

@@ -5,13 +5,21 @@ import * as _ from 'lodash';
 import MessageList from './message_list';
 
 class MessageListContainer extends React.Component {
+  get isLoaded() {
+    return !_.isEmpty(this.messages);
+  }
+
+  get messages() {
+    return this.props.room && this.props.room.messages.toModelArray();
+  }
+
   render() {
-    if (!this.props.room) {
+    if (!this.isLoaded) {
       return <div className="messagelist" />;
     }
 
     return (
-      <MessageList messages={this.props.room.messages.toModelArray()} />
+      <MessageList messages={this.messages} />
     );
   }
 }

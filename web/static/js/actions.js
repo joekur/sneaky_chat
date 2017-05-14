@@ -5,13 +5,14 @@ import { authToken } from './auth';
 export const PRESENCE_SYNCED = 'PRESENCE_SYNCED';
 export const PRESENCE_DIFF = 'PRESENCE_DIFF';
 
-export const HISTORY_LOADED = 'HISTORY_LOADED';
+export const TEAM_LOADED = 'TEAM_LOADED';
 
 export const MESSAGE_SENT = 'MESSAGE_SENT';
 export const MESSAGE_SENT_ACKED = 'MESSAGE_SENT_ACKED';
 export const NEW_MESSAGE = 'NEW_MESSAGE';
 
 export const CHANGE_ROOMS = 'CHANGE_ROOMS';
+export const ROOM_LOADED = 'ROOM_LOADED';
 
 function presenceSynced(presence) {
   return {
@@ -27,9 +28,9 @@ function presenceDiff(diff) {
   };
 }
 
-function historyLoaded(response) {
+function teamLoaded(response) {
   return {
-    type: HISTORY_LOADED,
+    type: TEAM_LOADED,
     data: { response },
   };
 }
@@ -62,22 +63,42 @@ function changeRooms(roomId) {
   };
 }
 
-function loadHistory(dispatch) {
+function roomLoaded(response) {
+  return {
+    type: ROOM_LOADED,
+    data: { response },
+  };
+}
+
+function apiGet(path) { // TODO extract
   const headers = new Headers();
   headers.append('Authorization', `Bearer: ${authToken}`)
-  return fetch('/api/history', { headers })
+  return fetch(`/api${path}`, { headers })
     .then(resp => resp.json());
+}
+
+function loadTeam(dispatch) {
+  apiGet('/team').then(resp => {
+    dispatch(teamLoaded(resp));
+
+    resp.rooms.forEach(room => {
+      loadRoom(room, dispatch);
+    });
+  });
+}
+
+function loadRoom(room, dispatch) {
+  apiGet(`/room/${room.id}`).then(resp => {
+    SocketManager.subscribeToRoom(room.id);
+    dispatch(roomLoaded(resp));
+  });
 }
 
 function connectApp() {
   return (dispatch) => {
     connectSocketActions(dispatch);
     SocketManager.connect();
-
-    loadHistory(dispatch).then(resp => {
-      dispatch(historyLoaded(resp));
-      resp.rooms.forEach(room => SocketManager.subscribeToRoom(room.id));
-    });
+    loadTeam(dispatch);
   }
 }
 
