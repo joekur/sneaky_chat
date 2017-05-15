@@ -17,6 +17,8 @@ defmodule SneakyChat.Api.TeamView do
     %{
       id: user.id,
       username: user.username,
+      email: user.email,
+      avatar_url: user.email && Gravatar.new(user.email) |> to_string,
     }
   end
 

@@ -21,7 +21,9 @@ class Message extends React.Component {
     return (
       <div className="message">
         <div className="message__gutter">
-          <div className="message__avatar" />
+          <div className="message__avatar">
+            <img src={this.props.message.user.avatar_url} />
+          </div>
         </div>
         <div className="message__content">
           <div className="message__header">

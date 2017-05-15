@@ -43,6 +43,7 @@ defmodule SneakyChat.Mixfile do
       {:cowboy, "~> 1.0"},
       {:comeonin, "~> 2.4"},
       {:guardian, "~> 0.14"},
+      {:gravatar, "~> 0.1.0"},
     ]
   end
 

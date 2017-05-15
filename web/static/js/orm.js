@@ -32,6 +32,7 @@ User.fields = {
   id: attr(),
   username: attr(),
   email: attr(),
+  avatar_url: attr(),
 };
 
 class Room extends Model {}
