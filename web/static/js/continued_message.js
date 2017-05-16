@@ -1,16 +1,15 @@
 import React from 'react';
+import MessageBody from './message_body';
 
 class ContinuedMessage extends React.Component {
-  renderBody() {
-    return <div className="message__body">{this.props.message.body}</div>;
-  }
-
   render() {
     return (
       <div className="message">
         <div className="message__gutter"></div>
         <div className="message__content">
-          {this.renderBody()}
+          <div className="message__body">
+            <MessageBody body={this.props.message.body} />
+          </div>
         </div>
       </div>
     );

@@ -23,8 +23,10 @@ defmodule SneakyChat.Api.RoomView do
   def messages(room) do
     SneakyChat.Message
     |> Ecto.Query.where([m], m.room_id == ^room.id)
-    |> Ecto.Query.order_by([m], asc: m.inserted_at)
+    |> Ecto.Query.order_by([m], desc: m.inserted_at)
+    |> Ecto.Query.limit([m], 20)
     |> Repo.all
+    |> Enum.reverse
   end
 
   def users(_room) do

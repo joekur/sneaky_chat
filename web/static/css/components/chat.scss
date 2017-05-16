@@ -112,7 +112,22 @@ $rooms-bar-background: #45515d;
 }
 
 .message__body {
-  white-space: pre;
+
+  img, iframe {
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    margin-top: 5px;
+  }
+
+  img {
+    max-height: 500px;
+  }
+
+  iframe {
+    width: 500px;
+    height: 282px;
+  }
 }
 
 .message__username {

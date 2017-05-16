@@ -1,10 +1,7 @@
 import React from 'react';
+import MessageBody from './message_body';
 
 class Message extends React.Component {
-  renderBody() {
-    return <div className="message__body">{this.props.message.body}</div>;
-  }
-
   renderUsername() {
     return (
       <span className="message__username">{this.props.message.user.username}</span>
@@ -29,7 +26,9 @@ class Message extends React.Component {
           <div className="message__header">
             {this.renderUsername()}{this.renderTimestamp()}
           </div>
-          {this.renderBody()}
+          <div className="message__body">
+            <MessageBody body={this.props.message.body} />
+          </div>
         </div>
       </div>
     );
