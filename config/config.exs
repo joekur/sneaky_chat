@@ -28,7 +28,7 @@ config :guardian, Guardian,
   issuer: "SneakyChat",
   ttl: { 30, :days},
   verify_issuer: true,
-  secret_key: "<your secret guardian key>",
+  secret_key: System.get_env("GUARDIAN_SECRET"),
   serializer: SneakyChat.GuardianSerializer
 
 # Import environment specific config. This must remain at the bottom
