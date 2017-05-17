@@ -14,6 +14,7 @@ defmodule SneakyChat.RegistrationController do
     case Repo.insert(changeset) do
       {:ok, user} ->
         conn
+        |> SneakyChat.Auth.login(user)
         |> redirect(to: page_path(conn, :index))
       {:error, changeset} ->
         conn
