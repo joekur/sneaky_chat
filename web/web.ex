@@ -54,6 +54,7 @@ defmodule SneakyChat.Web do
       import SneakyChat.ErrorHelpers
       import SneakyChat.Gettext
       import SneakyChat.SharedHelpers
+      import SneakyChat.ViewHelpers
     end
   end
 

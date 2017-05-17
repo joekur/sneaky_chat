@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+
     <%= if Guardian.Plug.current_token(@conn) do %>
       <meta name="guardian_token" content="<%= Guardian.Plug.current_token(@conn) %>">
     <% end %>
 
     <title>Hello SneakyChat!</title>
-    <link rel="stylesheet" href="http://localhost:8080/priv/static/js/styles.css">
+    <link rel="stylesheet" href=<%= webpack_path(@conn, "styles.css") %>>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600" rel="stylesheet">
   </head>
 
@@ -23,5 +24,6 @@
     </main>
 
     <script src="http://localhost:8080/priv/static/js/index.js"></script>
+    <script src=<%= webpack_path(@conn, "index.js") %>></script>
   </body>
 </html>

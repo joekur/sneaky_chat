@@ -2,8 +2,8 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var path = require('path');
 var webpack = require('webpack');
 
-var env = process.env.MIX_ENV || 'dev';
-var prod = env === 'prod';
+var env = process.env.NODE_ENV || 'dev';
+var prod = env === 'production';
 
 var webpackServer = 'http://localhost:8080/';
 
