@@ -8,3 +8,5 @@
   </div>
   <%= submit "Sign in", class: "btn btn-primary" %>
 <% end %>
+
+<%= link "Create new account", to: registration_path(@conn, :new) %>
